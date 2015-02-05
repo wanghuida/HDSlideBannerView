@@ -1,0 +1,2 @@
+# HDSlideBannerView
+Common Banner
