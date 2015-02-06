@@ -1,0 +1,38 @@
+//
+//  ViewController.m
+//  HDSlideBannerView
+//
+//  Created by william on 15/2/5.
+//  Copyright (c) 2015年 wanghd. All rights reserved.
+//
+
+#import "ViewController.h"
+#import "HDSlideBannerVIew.h"
+
+@interface ViewController ()
+
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    NSMutableArray *imgList = [NSMutableArray array];
+    [imgList addObject:@"http://pic7.nipic.com/20100517/1383578_225053927034_2.jpg"];
+    [imgList addObject:@"http://pic1.ooopic.cn/uploadfilepic/sheying/2009-11-16/OOOPIC_lang2009chao_2009111687174732a8a4e1a3.jpg"];
+    [imgList addObject:@"http://img1.3lian.com/img2008/14/04/0104.jpg"];
+    
+    HDSlideBannerVIew *bannerView = [[HDSlideBannerVIew alloc] init];
+    bannerView.frame = CGRectMake(0, 100, [[UIScreen mainScreen] bounds].size.width, 200);
+    [bannerView setImgList:imgList];
+    [self.view addSubview:bannerView];
+    
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+@end
