@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "HDSlideBannerVIew.h"
 
-@interface ViewController ()
+@interface ViewController ()<HDSlideBannerViewDelegate>
 
 @end
 
@@ -25,9 +25,14 @@
     
     HDSlideBannerVIew *bannerView = [[HDSlideBannerVIew alloc] init];
     bannerView.frame = CGRectMake(0, 100, [[UIScreen mainScreen] bounds].size.width, 200);
+    bannerView.delegate = self;
     [bannerView setImgList:imgList];
     [self.view addSubview:bannerView];
     
+}
+
+- (void)slideBannerTapIndex:(NSInteger)index {
+    NSLog(@"%ld", (long)index);
 }
 
 - (void)didReceiveMemoryWarning {

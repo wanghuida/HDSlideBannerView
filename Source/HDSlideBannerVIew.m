@@ -16,10 +16,6 @@
 @property (nonatomic) int vW;
 @property (nonatomic) int vH;
 
-// control
-@property (strong, nonatomic) UIScrollView *scrollView;
-@property (strong, nonatomic) UIPageControl *pageControl;
-
 // data
 @property (strong, nonatomic) NSMutableArray *imageList;
 @property (assign, nonatomic) NSInteger imageViewIndex;
@@ -91,9 +87,9 @@
     NSString *currImageSrc = [self.imageList objectAtIndex:self.imageViewIndex];
     NSString *nextImageSrc = [self.imageList objectAtIndex:nextIndex];
     
-    UIImageView *prevImageView = [self createImageView:prevImageSrc];
-    UIImageView *currImageView = [self createImageView:currImageSrc];
-    UIImageView *nextImageView = [self createImageView:nextImageSrc];
+    UIImageView *prevImageView = [self createImageView:prevImageSrc :prevIndex];
+    UIImageView *currImageView = [self createImageView:currImageSrc :self.imageViewIndex];
+    UIImageView *nextImageView = [self createImageView:nextImageSrc :nextIndex];
     
     self.displayList = [NSMutableArray array];
     [self.displayList addObject:prevImageView];
@@ -106,10 +102,23 @@
     return index < 0 ? (c + index) % c : index % c;
 }
 
-- (UIImageView *)createImageView:(NSString *)imgSrc {
+- (UIImageView *)createImageView:(NSString *)imgSrc :(NSInteger)index {
     UIImageView *imageView = [[UIImageView alloc] init];
     [imageView sd_setImageWithURL:[NSURL URLWithString:imgSrc]];
+    
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapImageView:)];
+    [imageView addGestureRecognizer:tapGesture];
+    imageView.userInteractionEnabled = YES;
+    imageView.tag = index;
+    
     return imageView;
+}
+
+- (void)tapImageView:(UITapGestureRecognizer *)tap {
+    UIImageView *imageView = (UIImageView *)tap.view;
+    if ([self.delegate respondsToSelector:@selector(slideBannerTapIndex:)]) {
+        [self.delegate slideBannerTapIndex:imageView.tag];
+    }
 }
 
 
@@ -126,7 +135,5 @@
     }
     
 }
-
-
 
 @end
