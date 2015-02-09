@@ -22,10 +22,22 @@
 
 @property (strong, nonatomic) NSMutableArray *displayList;
 
+// timer
+@property (strong, nonatomic) NSTimer *timer;
+@property (nonatomic) BOOL isAutoSlide;
+@property (nonatomic) NSTimeInterval autoSlideTimeInterval;
+
 @end
 
 
 @implementation HDSlideBannerVIew
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    self.scrollView = [[UIScrollView alloc] init];
+    self.pageControl = [[UIPageControl alloc] init];
+    return self;
+}
 
 - (void)setImgList:(NSArray *)imgList {
     
@@ -43,21 +55,21 @@
 
 - (void)drawRect:(CGRect)rect {
     
-    self.scrollView = [[UIScrollView alloc] init];
     self.scrollView.frame = self.bounds;
     self.scrollView.pagingEnabled = YES;
     self.scrollView.contentSize = CGSizeMake(self.vW * 3, self.vH);
     self.scrollView.delegate = self;
     [self addSubview:self.scrollView];
     
-    self.pageControl = [[UIPageControl alloc] init];
     self.pageControl.frame = CGRectMake(0, self.vH - 30, self.vW, 20);
     self.pageControl.numberOfPages = self.imageList.count;
     self.pageControl.currentPage = 0;
     [self addSubview:self.pageControl];
     
     [self rebuildDisplayContent];
+    [self resetTimer];
 }
+
 
 
 - (void)rebuildDisplayContent {
@@ -133,7 +145,39 @@
         self.imageViewIndex += 1;
         [self rebuildDisplayContent];
     }
-    
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    [self.timer invalidate];
+    [self resetTimer];
+}
+
+#pragma mark - Timer
+
+- (void)openAutoSlideWithTimeInterval:(NSTimeInterval)timeInterval {
+    self.isAutoSlide = YES;
+    self.autoSlideTimeInterval = timeInterval;
+}
+
+- (void)closeAutoSlide {
+    self.isAutoSlide = NO;
+    if (self.timer != nil && self.timer.isValid) {
+        [self.timer invalidate];
+    }
+}
+
+- (void)resetTimer {
+    if (self.isAutoSlide) {
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:self.autoSlideTimeInterval
+                                                      target:self
+                                                    selector:@selector(processAutoSlide)
+                                                    userInfo:nil
+                                                     repeats:YES];
+    }
+}
+
+- (void)processAutoSlide {
+    [self.scrollView setContentOffset:CGPointMake(self.vW * 2, 0) animated:YES];
 }
 
 @end

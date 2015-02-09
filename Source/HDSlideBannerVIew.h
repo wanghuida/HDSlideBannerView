@@ -20,11 +20,15 @@
 
 @interface HDSlideBannerVIew : UIView
 
+@property (weak, nonatomic) id<HDSlideBannerViewDelegate> delegate;
+
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) UIPageControl *pageControl;
 
-@property (weak, nonatomic) id<HDSlideBannerViewDelegate> delegate;
-
 - (void)setImgList:(NSArray *)imgList;
+
+- (void)openAutoSlideWithTimeInterval:(NSTimeInterval)timeInterval;
+
+- (void)closeAutoSlide;
 
 @end
