@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "HDSlideBannerView"
-  s.version      = "0.0.1"
+  s.version      = "1.0.0"
   s.summary      = "Common Slide Banner UIView for iOS."
 
   s.homepage     = "https://github.com/wanghuida/HDSlideBannerView"
@@ -69,7 +69,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/wanghuida/HDSlideBannerView.git", :tag => "0.0.1" }
+  s.source       = { :git => "https://github.com/wanghuida/HDSlideBannerView.git", :tag => "1.0.0" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
